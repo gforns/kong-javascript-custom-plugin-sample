@@ -5,8 +5,6 @@ services:
     routes:
       - name: anything
         paths: [ '/anything' ]
-        strip_path: false
-        protocols: ['http']
     plugins:
       - name: js_hello
         config:
