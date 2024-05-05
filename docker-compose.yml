@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+  kong:
+    restart: on-failure
+    container_name: kongnode
+    build: ./kong-image
+    image: kongjs
+    ports:
+      - "8000:8000/tcp"
+    environment:
+      KONG_LOG_LEVEL: info
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong.yaml
+      # This Sample will load 2 differnt plugins, one is Javascript, the other Typescript. Defining 2 different Plugin servers for them
+      KONG_PLUGINS: bundled, js_hello, ts_hello
+      KONG_PLUGINSERVER_NAMES: js, ts
+      # Plugin Server for JS
+      KONG_PLUGINSERVER_JS_SOCKET: /usr/local/kong/js_pluginserver.sock
+      KONG_PLUGINSERVER_JS_START_CMD: /usr/local/bin/kong-js-pluginserver -v --plugins-directory /usr/local/kong/js-plugins
+      KONG_PLUGINSERVER_JS_QUERY_CMD: /usr/local/bin/kong-js-pluginserver --plugins-directory /usr/local/kong/js-plugins --dump-all-plugins
+      # Plugin Server for TS
+      KONG_PLUGINSERVER_TS_SOCKET: /usr/local/kong/ts_pluginserver.sock
+      KONG_PLUGINSERVER_TS_START_CMD: /usr/local/bin/kong-js-pluginserver -v --plugins-directory /usr/local/kong/ts-plugins --sock-name ts_pluginserver.sock
+      KONG_PLUGINSERVER_TS_QUERY_CMD: /usr/local/bin/kong-js-pluginserver --plugins-directory /usr/local/kong/ts-plugins --dump-all-plugins
+      
+
+    healthcheck:
+      test: ["CMD", "kong", "health"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./kong.yaml:/kong.yaml
+  

@@ -1,0 +1,9 @@
+{
+  "name": "js_hello",
+  "version": "0.1.0",
+  "description": "hello JS plugin from kong",
+  "main": "js_hello.js",
+  "dependencies": {
+    "kong-pdk": "^0.5.5"
+  }
+}

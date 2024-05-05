@@ -1,0 +1,9 @@
+{
+  "name": "ts_hello",
+  "version": "0.1.0",
+  "description": "hello TS plugin from kong",
+  "main": "ts_hello.ts",
+  "dependencies": {
+    "kong-pdk": "^0.5.5"
+  }
+}

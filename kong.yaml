@@ -1,0 +1,16 @@
+_format_version: "2.1"
+services:
+  - name: anything
+    url: https://httpbin.org/anything
+    routes:
+      - name: anything
+        paths: [ '/anything' ]
+        strip_path: false
+        protocols: ['http']
+    plugins:
+      - name: js_hello
+        config:
+          message: javascript_hello
+      - name: ts_hello
+        config:
+          message: typescript_hello
